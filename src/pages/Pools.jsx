@@ -5,31 +5,35 @@ import { styles } from "../constants/styles";
 const headers = [
   {
     id: 1,
-    name: "username",
+    name: "user",
   },
   {
     id: 2,
-    name: "email",
+    name: "amount",
   },
   {
     id: 3,
-    name: "verified",
+    name: "plan",
   },
   {
     id: 4,
+    name: "status",
+  },
+  {
+    id: 5,
     name: "actions",
   },
 ];
 
-const Users = () => {
+const Pools = () => {
   return (
     <section className={`${styles.authWrapper} p-6`}>
       <div className="flex flex-col gap-6">
-        <h3 className={styles.title}>Users</h3>
+        <h3 className={styles.title}>Pools</h3>
         <Datatable headers={headers} />
       </div>
     </section>
   );
 };
 
-export default Users;
+export default Pools;

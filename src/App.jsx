@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Trnxs from "./pages/Trnxs";
-import Wallets from "./pages/Wallets";
+import Pools from "./pages/Pools";
 import Users from "./pages/Users";
 
 const authLinks = [
@@ -26,9 +26,9 @@ const authLinks = [
     path: "/trnxs",
   },
   {
-    id: "wallets",
-    name: "wallets",
-    path: "/wallets",
+    id: "pools",
+    name: "pools",
+    path: "/pools",
   },
 ];
 
@@ -52,7 +52,7 @@ const App = () => {
                 <FaUser />
               ) : link.name === "trnxs" ? (
                 <FaBuyNLarge />
-              ) : link.name === "wallets" ? (
+              ) : link.name === "pools" ? (
                 <MdWallet />
               ) : null;
             return (
@@ -76,7 +76,7 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/wallets" element={<Wallets />} />
+          <Route path="/pools" element={<Pools />} />
           <Route path="/trnxs" element={<Trnxs />} />
         </Routes>
       </div>

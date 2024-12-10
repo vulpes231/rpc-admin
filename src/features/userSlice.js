@@ -17,7 +17,7 @@ const initialState = {
 };
 
 export const getUsers = createAsyncThunk("users/getUsers", async () => {
-  const url = `${devServer}/usercontrol`;
+  const url = `${liveServer}/usercontrol`;
   const accessToken = getAccessToken();
   try {
     const response = await axios.get(url, {

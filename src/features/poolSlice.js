@@ -16,7 +16,7 @@ const initialState = {
 export const getInvestments = createAsyncThunk(
   "invest/getInvestments",
   async () => {
-    const url = `${devServer}/invest`;
+    const url = `${liveServer}/invest`;
     const accessToken = getAccessToken();
     try {
       const response = await axios.get(url, {

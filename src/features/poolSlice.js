@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { devServer, liveServer, sendError } from "../constants/index";
+import {
+  devServer,
+  getAccessToken,
+  liveServer,
+  sendError,
+} from "../constants/index";
 import axios from "axios";
 
 const initialState = {
@@ -12,10 +17,12 @@ export const getInvestments = createAsyncThunk(
   "invest/getInvestments",
   async () => {
     const url = `${devServer}/invest`;
+    const accessToken = getAccessToken();
     try {
       const response = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       // console.log(response.data);
@@ -39,7 +46,7 @@ const poolSlice = createSlice({
       .addCase(getInvestments.fulfilled, (state, action) => {
         state.getPoolLoading = false;
         state.getPoolError = false;
-        state.pools = action.payload;
+        state.pools = action.payload.investments;
       })
       .addCase(getInvestments.rejected, (state, action) => {
         state.getPoolLoading = false;

@@ -6,9 +6,9 @@ const getAccessToken = () => {
       return null;
     }
 
-    return JSON.parse(accessTokenString);
+    return accessTokenString;
   } catch (error) {
-    console.log(error);
+    console.log("Error reading access token:", error);
     return null;
   }
 };
@@ -21,6 +21,6 @@ const sendError = (error) => {
 };
 
 const liveServer = ``;
-const devServer = ``;
+const devServer = `http://localhost:5000`;
 
 export { getAccessToken, sendError, liveServer, devServer };

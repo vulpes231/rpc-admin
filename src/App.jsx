@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdHome, MdWallet } from "react-icons/md";
 import { FaBuyNLarge, FaUser } from "react-icons/fa";
@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Trnxs from "./pages/Trnxs";
 import Pools from "./pages/Pools";
 import Users from "./pages/Users";
+import { getAccessToken } from "./constants";
 
 const authLinks = [
   {
@@ -33,12 +34,26 @@ const authLinks = [
 ];
 
 const App = () => {
-  // const [toggle, setToggle] = useState(false);
-  const [active, setActive] = useState("dash");
+  const [active, setActive] = useState("");
+  const [token, setToken] = useState(false);
+
+  const accessToken = getAccessToken();
+
+  useEffect(() => {
+    if (accessToken) {
+      setToken(accessToken);
+    } else {
+      setToken(false);
+    }
+  }, [accessToken]);
   return (
     <div className="h-screen flex">
       <aside
-        className={`hidden md:flex h-full flex-col bg-black text-slate-100 w-[280px] p-6 gap-6`}
+        className={
+          token
+            ? `hidden md:flex h-full flex-col bg-black text-slate-100 w-[280px] p-6 gap-6`
+            : "hidden"
+        }
       >
         <span className="w-full flex justify-between items-center">
           <h3 className="capitalize font-semibold text-2xl">finance hedge</h3>

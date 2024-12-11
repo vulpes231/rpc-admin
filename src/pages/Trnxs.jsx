@@ -8,7 +8,7 @@ import Approvemodal from "../components/Approvemodal";
 
 const headers = [
   {
-    id: "user",
+    id: "username",
     name: "User",
   },
   {

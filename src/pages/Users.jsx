@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
 import { styles } from "../constants/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,8 +26,9 @@ const headers = [
 
 const Users = ({ setActive }) => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.users);
+  const { users, usersError } = useSelector((state) => state.users);
   const accessToken = getAccessToken();
+  // const [error, setError] = useState(false);
 
   useEffect(() => {
     if (accessToken) {
@@ -42,6 +43,14 @@ const Users = ({ setActive }) => {
   const handleAction = (action, userId) => {
     console.log(`Action: ${action}, User ID: ${userId}`);
   };
+
+  // useEffect(() => {
+  //   if (error.includes("Bad token")) {
+  //     sessionStorage.clear();
+  //     setError("");
+  //     window.location.href = "/";
+  //   }
+  // }, [error]);
 
   const modifiedUsers =
     users &&
@@ -59,6 +68,10 @@ const Users = ({ setActive }) => {
       ),
       isKycVerified: user.isKycVerified ? "Verified" : "Not Verified",
     }));
+
+  if (usersError) {
+    return <p>Failed to load users. Try again</p>;
+  }
 
   return (
     <section className={`${styles.authWrapper} p-6`}>

@@ -24,7 +24,7 @@ export const getAllTrnx = createAsyncThunk("trnx/getTrnxs", async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    // console.log(response.data);
+
     return response.data;
   } catch (error) {
     sendError(error);
@@ -93,7 +93,7 @@ const trnxSlice = createSlice({
       .addCase(getAllTrnx.fulfilled, (state, action) => {
         state.getTrnxLoading = false;
         state.getTrnxError = false;
-        state.trnxs = action.payload.transactions;
+        state.trnxs = action?.payload?.transactions;
       })
       .addCase(getAllTrnx.rejected, (state, action) => {
         state.getTrnxLoading = false;
@@ -120,10 +120,10 @@ const trnxSlice = createSlice({
       .addCase(approveTrnx.pending, (state) => {
         state.approveTrnxLoading = true;
       })
-      .addCase(approveTrnx.fulfilled, (state, action) => {
+      .addCase(approveTrnx.fulfilled, (state) => {
         state.approveTrnxLoading = false;
         state.approveTrnxError = false;
-        state.trnxApproved = action.payload.transaction;
+        state.trnxApproved = true;
       })
       .addCase(approveTrnx.rejected, (state, action) => {
         state.approveTrnxLoading = false;

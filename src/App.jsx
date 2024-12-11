@@ -42,6 +42,8 @@ const App = () => {
 
   const { accessToken } = useSelector((state) => state.auth);
 
+  // console.log(permanentToken);
+
   useEffect(() => {
     if (accessToken || permanentToken) {
       setToken(accessToken ? accessToken : permanentToken);

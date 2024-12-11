@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
 import { styles } from "../constants/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,18 +30,9 @@ const headers = [
 
 const Pools = ({ setActive }) => {
   const dispatch = useDispatch();
-  const { pools } = useSelector((state) => state.invest);
+  const [error, setError] = useState(false);
+  const { pools, getPoolError } = useSelector((state) => state.invest);
   const accessToken = getAccessToken();
-
-  useEffect(() => {
-    if (accessToken) {
-      dispatch(getInvestments());
-    }
-  }, [accessToken, dispatch]);
-
-  useEffect(() => {
-    setActive("pools");
-  }, [setActive]);
 
   const handleAction = (action, poolId) => {
     console.log(`Action: ${action}, Pool ID: ${poolId}`);
@@ -61,8 +52,36 @@ const Pools = ({ setActive }) => {
           <option value="delete">Delete</option>
         </select>
       ),
-      status: pool.status ? "Active" : "Inactive", // Assuming `status` is a boolean
+      status: pool.status ? "Active" : "Inactive",
     }));
+
+  useEffect(() => {
+    if (getPoolError) {
+      setError(getPoolError);
+    }
+  }, [getPoolError]);
+
+  useEffect(() => {
+    if (accessToken) {
+      dispatch(getInvestments());
+    }
+  }, [accessToken, dispatch]);
+
+  useEffect(() => {
+    setActive("pools");
+  }, [setActive]);
+
+  // useEffect(() => {
+  //   if (error.includes("Bad token")) {
+  //     sessionStorage.clear();
+  //     setError("");
+  //     window.location.href = "/";
+  //   }
+  // }, [error]);
+
+  if (getPoolError) {
+    return <p>Failed to load Investments. Try again</p>;
+  }
 
   return (
     <section className={`${styles.authWrapper} p-6`}>

@@ -35,11 +35,14 @@ const headers = [
 
 const Trnxs = ({ setActive }) => {
   const dispatch = useDispatch();
-  const { trnxs } = useSelector((state) => state.trnx);
+  const { trnxs, getTrnxError } = useSelector((state) => state.trnx);
   const accessToken = getAccessToken();
 
   const [approveModal, setApproveModal] = useState(false);
+  const [rejectModal, setRejectModal] = useState(false);
   const [transactionId, setTransactionId] = useState(false);
+  const [status, setStatus] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (accessToken) {
@@ -51,14 +54,35 @@ const Trnxs = ({ setActive }) => {
     setActive("trnxs");
   }, [setActive]);
 
-  const handleAction = (action, transactionId) => {
+  useEffect(() => {
+    if (getTrnxError) {
+      setError(getTrnxError);
+    }
+  }, [getTrnxError]);
+
+  useEffect(() => {
+    if (error && error.includes("Bad token")) {
+      sessionStorage.clear();
+      setError("");
+      window.location.href = "/";
+    }
+  }, [error]);
+
+  const handleAction = (action, transactionId, currentStatus) => {
     console.log(`Action: ${action}, Transaction ID: ${transactionId}`);
     setTransactionId(transactionId);
-    setApproveModal(true);
+    setStatus(currentStatus);
+    if (action === "approve") {
+      setApproveModal(true);
+    }
+    if (action === "reject") {
+      setRejectModal(true);
+    }
   };
   const closeModal = () => {
     setTransactionId(false);
     setApproveModal(false);
+    setStatus(false);
   };
 
   const modifiedTransactions =
@@ -67,16 +91,23 @@ const Trnxs = ({ setActive }) => {
       ...transaction,
       actions: (
         <select
-          onChange={(e) => handleAction(e.target.value, transaction._id)}
-          className="p-2 border rounded"
+          onChange={(e) =>
+            handleAction(e.target.value, transaction._id, transaction.status)
+          }
+          className={` p-2 border rounded`}
+          disabled={transaction.status === "completed"}
         >
           <option value="">Select action</option>
           <option value="approve">Approve</option>
-          <option value="reject">Reject</option>
+          {/* <option value="reject">Reject</option> */}
         </select>
       ),
       status: transaction.status,
     }));
+
+  if (getTrnxError) {
+    return <p>Failed to load Transactions. Try again</p>;
+  }
 
   return (
     <section className={`${styles.authWrapper} p-6`}>
@@ -85,7 +116,12 @@ const Trnxs = ({ setActive }) => {
         <Datatable headers={headers} data={modifiedTransactions} rowKey="_id" />
       </div>
       {approveModal && (
-        <Approvemodal trnxId={transactionId} close={closeModal} />
+        <Approvemodal
+          trnxId={transactionId}
+          close={closeModal}
+          status={status}
+          setStatus={setStatus}
+        />
       )}
     </section>
   );

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
 import { styles } from "../constants/styles";
@@ -106,7 +108,7 @@ const Trnxs = ({ setActive }) => {
     }));
 
   if (getTrnxError) {
-    return <p>Failed to load Transactions. Try again</p>;
+    return <p className="p-6">Failed to load Transactions. Try again</p>;
   }
 
   return (

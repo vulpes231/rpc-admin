@@ -10,6 +10,7 @@ import Pools from "./pages/Pools";
 import Users from "./pages/Users";
 import { getAccessToken } from "./constants";
 import { useSelector } from "react-redux";
+import Userprofile from "./pages/Userprofile";
 
 const authLinks = [
   {
@@ -107,6 +108,10 @@ const App = () => {
           <Route path="/users" element={<Users setActive={setActive} />} />
           <Route path="/pools" element={<Pools setActive={setActive} />} />
           <Route path="/trnxs" element={<Trnxs setActive={setActive} />} />
+          <Route
+            path="/userprofile/:userId"
+            element={<Userprofile setActive={setActive} />}
+          />
         </Routes>
       </div>
     </div>

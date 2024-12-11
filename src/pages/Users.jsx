@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import Datatable from "../components/Datatable";
 import { styles } from "../constants/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccessToken } from "../constants";
 import { getUsers } from "../features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const headers = [
   {
@@ -26,9 +29,9 @@ const headers = [
 
 const Users = ({ setActive }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { users, usersError } = useSelector((state) => state.users);
   const accessToken = getAccessToken();
-  // const [error, setError] = useState(false);
 
   useEffect(() => {
     if (accessToken) {
@@ -42,15 +45,10 @@ const Users = ({ setActive }) => {
 
   const handleAction = (action, userId) => {
     console.log(`Action: ${action}, User ID: ${userId}`);
+    if (action === "edit") {
+      navigate(`/userprofile/${userId}`);
+    }
   };
-
-  // useEffect(() => {
-  //   if (error.includes("Bad token")) {
-  //     sessionStorage.clear();
-  //     setError("");
-  //     window.location.href = "/";
-  //   }
-  // }, [error]);
 
   const modifiedUsers =
     users &&
@@ -70,7 +68,7 @@ const Users = ({ setActive }) => {
     }));
 
   if (usersError) {
-    return <p>Failed to load users. Try again</p>;
+    return <p className="p-6">Failed to load users. Try again </p>;
   }
 
   return (

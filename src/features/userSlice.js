@@ -26,7 +26,7 @@ export const getUsers = createAsyncThunk("users/getUsers", async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     sendError(error);
@@ -46,7 +46,7 @@ export const getUserInfo = createAsyncThunk(
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       sendError(error);
@@ -82,7 +82,7 @@ const userSlice = createSlice({
       .addCase(getUserInfo.fulfilled, (state, action) => {
         state.userInfoLoading = false;
         state.userInfoError = false;
-        state.userInfo = action.payload;
+        state.userInfo = action.payload.userInfo;
       })
       .addCase(getUserInfo.rejected, (state, action) => {
         state.userInfoLoading = false;

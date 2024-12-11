@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdHome, MdWallet } from "react-icons/md";
 import { FaBuyNLarge, FaUser } from "react-icons/fa";
 import Landing from "./pages/Landing";
@@ -9,6 +9,7 @@ import Trnxs from "./pages/Trnxs";
 import Pools from "./pages/Pools";
 import Users from "./pages/Users";
 import { getAccessToken } from "./constants";
+import { useSelector } from "react-redux";
 
 const authLinks = [
   {
@@ -34,18 +35,26 @@ const authLinks = [
 ];
 
 const App = () => {
+  const navigate = useNavigate();
+  const permanentToken = getAccessToken();
   const [active, setActive] = useState("");
   const [token, setToken] = useState(false);
 
-  const accessToken = getAccessToken();
+  const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (accessToken) {
-      setToken(accessToken);
+    if (accessToken || permanentToken) {
+      setToken(accessToken ? accessToken : permanentToken);
     } else {
       setToken(false);
     }
-  }, [accessToken]);
+  }, [accessToken, permanentToken]);
+
+  useEffect(() => {
+    if (!permanentToken) {
+      navigate("/");
+    }
+  }, [permanentToken, navigate]);
   return (
     <div className="h-screen flex">
       <aside
@@ -89,10 +98,13 @@ const App = () => {
       <div className="w-full">
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/pools" element={<Pools />} />
-          <Route path="/trnxs" element={<Trnxs />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard setActive={setActive} />}
+          />
+          <Route path="/users" element={<Users setActive={setActive} />} />
+          <Route path="/pools" element={<Pools setActive={setActive} />} />
+          <Route path="/trnxs" element={<Trnxs setActive={setActive} />} />
         </Routes>
       </div>
     </div>

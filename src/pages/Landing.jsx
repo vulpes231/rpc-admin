@@ -62,6 +62,7 @@ const Landing = () => {
               value={form.username}
               onChange={handleInput}
               name="username"
+              autoComplete="off"
             />
           </div>
           <div className={styles.inputHolder}>

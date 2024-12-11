@@ -24,7 +24,7 @@ const headers = [
   },
 ];
 
-const Users = () => {
+const Users = ({ setActive }) => {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
   const accessToken = getAccessToken();
@@ -34,6 +34,10 @@ const Users = () => {
       dispatch(getUsers());
     }
   }, [accessToken, dispatch]);
+
+  useEffect(() => {
+    setActive("users");
+  }, [setActive]);
 
   const handleAction = (action, userId) => {
     console.log(`Action: ${action}, User ID: ${userId}`);

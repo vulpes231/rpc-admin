@@ -39,6 +39,10 @@ const Pools = ({ setActive }) => {
     }
   }, [accessToken, dispatch]);
 
+  useEffect(() => {
+    setActive("pools");
+  }, [setActive]);
+
   const handleAction = (action, poolId) => {
     console.log(`Action: ${action}, Pool ID: ${poolId}`);
   };

@@ -15,12 +15,12 @@ const getAccessToken = () => {
 
 const sendError = (error) => {
   if (error.response) {
-    const errMsg = error.response.message.data;
+    const errMsg = error.response.data.message;
     throw new Error(errMsg);
   }
 };
 
-const liveServer = ``;
+const liveServer = `https://lith-ui.onrender.com`;
 const devServer = `http://localhost:5000`;
 
 export { getAccessToken, sendError, liveServer, devServer };

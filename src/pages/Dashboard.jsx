@@ -19,7 +19,7 @@ const Dashboard = () => {
     <section className={`${styles.authWrapper}`}>
       {/* <span className="">{toggle ? <MdMenu /> : <MdClose />}</span> */}
       <div className="flex flex-row h-full">
-        <div className="p-6 capitalize">
+        <div className="p-6 capitalize flex justify-between items-center w-full">
           <h3>hello admin</h3>
           <span>
             <p>{lastLogin}</p>
